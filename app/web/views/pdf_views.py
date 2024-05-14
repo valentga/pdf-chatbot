@@ -1,4 +1,4 @@
-from flask import Blueprint, g, jsonify
+from flask import Blueprint, g, jsonify, Response
 from werkzeug.exceptions import Unauthorized
 from app.web.hooks import login_required, handle_file_upload, load_model
 from app.web.db.models import Pdf
@@ -45,4 +45,4 @@ def show(pdf):
 @bp.route("/<string:pdf_id>/download", methods=["GET"])
 def download_file(pdf_id):
     with open(f"{Config.FILE_STORE}/" + pdf_id, 'rb') as store:
-        return store.read()
+        return Response(store.read(), mimetype='application/pdf')
